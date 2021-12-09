@@ -1,0 +1,8 @@
+{
+  "name": "movie-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "6cd917b9"
+}
