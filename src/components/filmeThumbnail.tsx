@@ -7,7 +7,7 @@ interface FilmeProps {
 
 const FilmeThumbnail: React.FC<FilmeProps> = ({ filme }) => {
   return (
-    <IonCard className="cardMovieList" routerLink={`/movie/${filme.imdbID}`}>
+    <IonCard className="cardMovieList" routerLink={`/filme/${filme.imdbID}`}>
       <img className="movieThumbnailList" src={filme.Poster} />
       <div className="myOverlay">
         <h4 className="overlayTitle">{filme.Title}</h4> ({filme.Year})

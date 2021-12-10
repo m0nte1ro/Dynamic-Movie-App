@@ -1,21 +1,19 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonRow, IonGrid, useIonViewWillEnter, useIonViewDidEnter, IonCol, IonRefresher, IonRefresherContent, IonSearchbar } from '@ionic/react';
 import { useState } from 'react';
-import FilmeThumbnail from '../components/filmeThumbnail';
-import { Filme, getAllFilmes, API_getFilme, API_procuraFilme } from '../data/filmes';
+import ListaFilmesEncontrados from '../components/filmesEncontradosLista';
+import { Filme, getAllFilmes, API_getFilme, API_procuraFilme, getFilmesPesquisados, FilmePesquisado } from '../data/filmes';
+import { useParams } from 'react-router';
 import './styles.css';
 
-API_getFilme('tt0111161');
-API_getFilme('tt0068646');
-API_getFilme('tt0167260');
-API_getFilme('tt0468569');
-API_getFilme('tt0108052');
-
-const HomePage: React.FC = () => {
-  const [filmes, setFilmes] = useState<Filme[]>([]);
+const FilmesProcurados: React.FC = () => {
+  const parametros = useParams<{ valorProcura: string }>();
+  const [filmesPesquisados, setGilmesPesquisados] = useState<FilmePesquisado[]>([]);
   const [valorProcura, setValorProcura] = useState('');
 
+  API_procuraFilme(parametros.valorProcura);
+
   useIonViewWillEnter(()=>{
-    setFilmes(getAllFilmes());
+    setGilmesPesquisados(getFilmesPesquisados());
   })
 
   const refresh = (e: CustomEvent) => {
@@ -29,7 +27,7 @@ const HomePage: React.FC = () => {
         <IonToolbar>
           <IonGrid>
             <IonRow>
-              <IonCol><IonTitle>Bem vindo ao IMDB+</IonTitle></IonCol>
+              <IonCol><IonTitle>Era isto que procurava?</IonTitle></IonCol>
               <IonCol></IonCol>
               <IonCol>
                 <form action={"search/" + valorProcura}>
@@ -38,7 +36,7 @@ const HomePage: React.FC = () => {
                     className="searchBarTB" 
                     value = {valorProcura} 
                     onIonChange={(e)=>setValorProcura(e.detail.value!)} 
-                    placeholder = "O que procura?">
+                    placeholder = "Que mais quer de mim?">
                   </IonSearchbar>
                 </form>
               </IonCol>
@@ -52,7 +50,7 @@ const HomePage: React.FC = () => {
         </IonRefresher>
         <IonGrid>
           <IonRow>
-            {filmes.map(m => <FilmeThumbnail key={m.imdbID} filme={m} />)}
+            {filmesPesquisados.map(m => <ListaFilmesEncontrados key={m.imdbID} filme={m} />)}
           </IonRow>
         </IonGrid>
       </IonContent>
@@ -60,4 +58,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default FilmesProcurados;
