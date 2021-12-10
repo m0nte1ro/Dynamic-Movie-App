@@ -2,32 +2,37 @@ import {
     IonImg,
     IonItem,
     IonLabel,
-    IonNote
+    IonNote,
+    IonIcon
     } from '@ionic/react';
-  import { FilmePesquisado } from '../data/filmes';
-  
-  interface FilmeEncontradoProp {
-    filme: FilmePesquisado;
+  import { starOutline } from 'ionicons/icons';
+  import { Filme, API_getFilme } from '../data/filmes';
+
+  interface FilmeProp {
+    filme:Filme;
   }
+
   
-  const ListaFilmesEncontrados: React.FC<FilmeEncontradoProp> = ({ filme }) => {
+  const ListaFilmesEncontrados: React.FC<FilmeProp> = ({ filme }) => {
+    if(filme.Poster=="N/A")
+      filme.Poster="imageNotFound.png"
     return (
-      <IonItem routerLink={`/filme/${filme.imdbID}`} detail={false}>
+      <IonItem routerLink={`/filme/${filme.imdbID}`} detail={false} className="listaFilmesPesquisados">
         <IonImg className="thumbnailLista" src={filme.Poster}/>
         <IonLabel className="ion-text-wrap">
           <h2>
             {filme.Title} ({filme.Year})
             <span className="date">
-              <IonNote>{filme.Year}</IonNote>
+              <IonNote>{filme.imdbRating} / 10 <IonIcon icon={starOutline} /></IonNote>
             </span>
           </h2>
-          <h3>{filme.Type}</h3>
+          {/* <h3>Directed by: {filme.Director}. Starring: {filme.Actors}</h3> */}
+          <h3>{filme.Director}</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            {filme.Plot}
           </p>
         </IonLabel>
       </IonItem>
     );
   };
-  
   export default ListaFilmesEncontrados;

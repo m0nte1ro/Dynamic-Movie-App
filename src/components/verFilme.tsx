@@ -24,7 +24,7 @@ function VerFilme(){
     const [filme, setFilme] = useState<Filme>();
 
     useIonViewWillEnter(()=>{
-        //API_getFilme(parametros.id);
+        API_getFilme(parametros.id, false);
         setFilme(getFilme(parametros.id));
     });
     

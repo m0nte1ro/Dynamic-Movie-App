@@ -178,3 +178,6 @@ ion-footer ion-title {
   height: 100px;
   margin-right: 20px;
 }
+.listaFilmesPesquisados {
+  width: 100vw;
+}

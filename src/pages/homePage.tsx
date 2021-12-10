@@ -4,11 +4,11 @@ import FilmeThumbnail from '../components/filmeThumbnail';
 import { Filme, getAllFilmes, API_getFilme, API_procuraFilme } from '../data/filmes';
 import './styles.css';
 
-API_getFilme('tt0111161');
-API_getFilme('tt0068646');
-API_getFilme('tt0167260');
-API_getFilme('tt0468569');
-API_getFilme('tt0108052');
+API_getFilme('tt0111161', false);
+API_getFilme('tt0068646', false);
+API_getFilme('tt0167260', false);
+API_getFilme('tt0468569', false);
+API_getFilme('tt0108052', false);
 
 const HomePage: React.FC = () => {
   const [filmes, setFilmes] = useState<Filme[]>([]);

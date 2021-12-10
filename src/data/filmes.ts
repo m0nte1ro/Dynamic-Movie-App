@@ -46,16 +46,22 @@ export interface FilmePesquisado {
 
 const listaFilmes: Filme[] = [];
 
-const listaFilmesEcontrados: FilmePesquisado[] = [];
+const listaFilmesEcontrados: Filme[] = [];
 
-export const API_getFilme = (id: string) =>{
+export const API_getFilme = (id: string, search: boolean) =>{
     return axios({
         url: API_URL + API_KEY + '&type=movie' + '&i=' + id, 
         method: 'get'
     }).then(resposta =>{
         if(resposta.data==null) return;
-        if(listaFilmes.filter(e => e.imdbID === resposta.data.imdbID).length==0){
-            listaFilmes.push(resposta.data);
+        if(!search){
+            if(listaFilmes.filter(e => e.imdbID === resposta.data.imdbID).length==0){
+                listaFilmes.push(resposta.data);
+            }
+        }else{
+            if(listaFilmesEcontrados.filter(e => e.imdbID === resposta.data.imdbID).length==0){
+                listaFilmesEcontrados.push(resposta.data);
+            }
         }
     })
 }
@@ -67,13 +73,22 @@ export const API_procuraFilme = (titleInput: string) => {
     }).then(search => {
         if(search.data.Search == null) return;
         for (let m of Object(search.data.Search)) {
-            if(listaFilmesEcontrados.length<search.data.Search.length)
-                listaFilmesEcontrados.push(m);
+            // if(listaFilmesEcontrados.length<search.data.Search.length)
+            //     listaFilmesEcontrados.push(m);
+            if(listaFilmes.filter(e => e.imdbID === m.imdbID).length==0){
+                API_getFilme(m.imdbID, true);
+            }
         }
     })
   };
 
-export const getFilme = (id: string) => listaFilmes.find(m => m.imdbID === id);
+const AllFilmes: Filme [] = listaFilmes;
+for  (let x of listaFilmesEcontrados){
+    if(AllFilmes.filter(e=> e.imdbID === x.imdbID).length==0)
+        AllFilmes.push(x);
+}
+export const getFilme = (id: string) => AllFilmes.find(m => m.imdbID === id);
+// export const getFilme = (id: string) => listaFilmes.find(m => m.imdbID === id);
 
 export const getAllFilmes = () => listaFilmes;
 

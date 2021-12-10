@@ -7,12 +7,14 @@ import './styles.css';
 
 const FilmesProcurados: React.FC = () => {
   const parametros = useParams<{ valorProcura: string }>();
-  const [filmesPesquisados, setGilmesPesquisados] = useState<FilmePesquisado[]>([]);
+  // const [filmesPesquisados, setGilmesPesquisados] = useState<FilmePesquisado[]>([]);
+  const [filmesPesquisados, setGilmesPesquisados] = useState<Filme[]>([]);
   const [valorProcura, setValorProcura] = useState('');
 
   API_procuraFilme(parametros.valorProcura);
 
   useIonViewWillEnter(()=>{
+    // setGilmesPesquisados(getFilmesPesquisados());
     setGilmesPesquisados(getFilmesPesquisados());
   })
 
