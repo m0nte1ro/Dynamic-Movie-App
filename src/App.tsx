@@ -7,6 +7,11 @@ import { IonReactRouter } from '@ionic/react-router';
 import HomePage from './pages/homePage';
 import VerFilme from './components/verFilme';
 import FilmesProcurados from './pages/filmesEncontrados';
+import Stats from './pages/stats';
+import VerBoxOfficeRecomendados from './components/filmesRecomendadosBoxOffice';
+import VerBoxOfficeBilheteira from './components/filmesBilheteiraBoxOffice';
+import VerRatingsRecomendados from './components/filmesRecomendadosRating';
+import VerRatingsBilheteira from './components/filmesBilheteiraRating';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,6 +38,21 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route path="/home">
           <HomePage />
+        </Route>
+        <Route path="/stats">
+          <Stats />
+        </Route>
+        <Route path="/filmes_recomendados_box_office">
+          <VerBoxOfficeRecomendados />
+        </Route>
+        <Route path="/filmes_recomendados_ratings">
+          <VerRatingsRecomendados />
+        </Route>
+        <Route path="/filmes_bilheteira_box_office">
+          <VerBoxOfficeBilheteira />
+        </Route>
+        <Route path="/filmes_bilheteira_ratings">
+          <VerRatingsBilheteira />
         </Route>
         <Route path="/filme/:id">
           <VerFilme />

@@ -6,33 +6,50 @@ import {
     IonIcon
     } from '@ionic/react';
   import { starOutline } from 'ionicons/icons';
-  import { Filme, API_getFilme } from '../data/filmes';
+  import { Filme } from '../data/filmes';
 
   interface FilmeProp {
-    filme:Filme;
+    filmeProp:Filme;
   }
 
   
-  const ListaFilmesEncontrados: React.FC<FilmeProp> = ({ filme }) => {
-    if(filme.Poster=="N/A")
-      filme.Poster="imageNotFound.png"
+  const ListaFilmesEncontrados: React.FC<FilmeProp> = ({ filmeProp }) => {
+    if(filmeProp.Poster=="N/A")
+      filmeProp.Poster="imageNotFound.png"
+      
     return (
-      <IonItem routerLink={`/filme/${filme.imdbID}`} detail={false} className="listaFilmesPesquisados">
-        <IonImg className="thumbnailLista" src={filme.Poster}/>
+      <>
+      {(filmeProp.imdbID!="404")?(
+      <IonItem routerLink={`/filme/${filmeProp.imdbID}`} detail={false} className="listaFilmesPesquisados">
+        <IonImg className="thumbnailLista" src={filmeProp.Poster}/>
         <IonLabel className="ion-text-wrap">
           <h2>
-            {filme.Title} ({filme.Year})
+            {filmeProp.Title} ({filmeProp.Year})
             <span className="date">
-              <IonNote>{filme.imdbRating} / 10 <IonIcon icon={starOutline} /></IonNote>
+              <IonNote>{filmeProp.imdbRating} / 10 <IonIcon icon={starOutline} /></IonNote>
             </span>
           </h2>
-          {/* <h3>Directed by: {filme.Director}. Starring: {filme.Actors}</h3> */}
-          <h3>{filme.Director}</h3>
+          <h3>{filmeProp.Director}</h3>
           <p>
-            {filme.Plot}
+            {filmeProp.Plot}
           </p>
         </IonLabel>
       </IonItem>
+      ):(
+        <IonItem detail={false} className="listaFilmesPesquisados">
+        <IonImg className="thumbnailLista" src={filmeProp.Poster}/>
+        <IonLabel className="ion-text-wrap">
+          <h2>
+            {filmeProp.Title}
+          </h2>
+          <h3>{filmeProp.Director}</h3>
+          <p>
+            {filmeProp.Plot}
+          </p>
+        </IonLabel>
+      </IonItem>
+      )}
+      </>
     );
   };
   export default ListaFilmesEncontrados;

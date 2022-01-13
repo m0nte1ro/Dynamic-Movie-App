@@ -1,18 +1,20 @@
 import { Filme } from '../data/filmes'
-import { IonCard } from '@ionic/react';
+import { IonCard, IonSlide } from '@ionic/react';
 
 interface FilmeProps {
-  filme: Filme;
+  propfilme: Filme | undefined;
 }
 
-const FilmeThumbnail: React.FC<FilmeProps> = ({ filme }) => {
+const FilmeThumbnail: React.FC<FilmeProps> = ({ propfilme }) => {
   return (
-    <IonCard className="cardMovieList" routerLink={`/filme/${filme.imdbID}`}>
-      <img className="movieThumbnailList" src={filme.Poster} />
-      <div className="myOverlay">
-        <h4 className="overlayTitle">{filme.Title}</h4> ({filme.Year})
-      </div>
-    </IonCard>
+    <IonSlide>
+      <IonCard className="cardMovieList" routerLink={`/filme/${propfilme?.imdbID}`}>
+        <img className="movieThumbnailList" src={propfilme?.Poster} />
+        <div className="myOverlay">
+          <h4 className="overlayTitle">{propfilme?.Title}</h4> ({propfilme?.Year})
+        </div>
+      </IonCard>
+    </IonSlide>
   );
 };
 

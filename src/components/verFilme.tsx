@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Filme, getFilme, API_getFilme, getAllFilmes} from '../data/filmes';
+import { useState, useEffect } from 'react';
+import { Filme } from '../data/filmes';
 import {
     IonBackButton,
     IonButtons,
@@ -12,27 +12,26 @@ import {
     IonPage,
     IonRouterLink,
     IonToolbar,
-    useIonViewWillEnter,
-    IonRefresher,
-    IonRefresherContent
   } from '@ionic/react';
 import { starOutline } from 'ionicons/icons';
 import { useParams } from 'react-router';
+import axios from 'axios';
 
 function VerFilme(){
     const parametros = useParams<{ id: string }>();
+    const API_URL = 'http://www.omdbapi.com/?apikey=';
+    const API_KEY = 'ec279820';
     const [filme, setFilme] = useState<Filme>();
 
-    useIonViewWillEnter(()=>{
-        API_getFilme(parametros.id, false);
-        setFilme(getFilme(parametros.id));
-    });
-    
-    const refresh = (e: CustomEvent) => {
-        setTimeout(() => {
-          e.detail.complete();
-        }, 3000);
-    };
+    useEffect(()=>{
+        axios({
+            method:'POST',
+            url:API_URL + API_KEY + '&type=movie' + '&i=' + parametros.id
+        }).then(rep=>{
+            setFilme(rep.data);
+        })
+    },[])
+
     return(
         <IonPage id="view-Movie-page">
             <IonHeader translucent>
@@ -42,11 +41,7 @@ function VerFilme(){
                 </IonButtons>
                 </IonToolbar>
             </IonHeader>
-
             <IonContent fullscreen>
-                <IonRefresher slot="fixed" onIonRefresh={refresh}>
-                    <IonRefresherContent></IonRefresherContent>
-                </IonRefresher>
                 {filme ? (
                 <>
                     <IonItem>
@@ -82,7 +77,7 @@ function VerFilme(){
                     </IonItem>
                 </>
         ) : (
-          <div>Movie not found</div>
+            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
         )}
       </IonContent>
     </IonPage>
